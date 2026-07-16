@@ -9,6 +9,9 @@
 #include "../GameEngine.hpp"
 #include "LoggerManager.h"
 #include <DirectXCollision.h>
+#include <filesystem>
+#include "CSVManager.h"
+#include <fstream>
 
 using namespace DirectX3DManager;
 
@@ -33,6 +36,11 @@ FBX::~FBX() {
 }
 
 void FBX::Init() {
+	if (!std::filesystem::exists(path_.c_str())) {
+		MessageBox(NULL, "FBXファイルが存在しません。", NULL, MB_OK);
+		return;
+	}
+
 	fbxManager_ = FbxManager::Create();
 	fbxImporter_ = FbxImporter::Create(fbxManager_, "imp");
 	fbxImporter_->Initialize(path_.c_str(), -1, fbxManager_->GetIOSettings());
