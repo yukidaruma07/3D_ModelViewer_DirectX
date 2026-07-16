@@ -90,6 +90,9 @@
     <ClCompile Include="Engine\CSVManager.cpp">
       <Filter>Engine\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ServerSocketManager.cpp">
+      <Filter>Engine\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGUI\imgui.h">
@@ -186,6 +189,9 @@
       <Filter>Engine\Object</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CSVManager.h">
+      <Filter>Engine\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ServerSocketManager.h">
       <Filter>Engine\Manager</Filter>
     </ClInclude>
   </ItemGroup>
