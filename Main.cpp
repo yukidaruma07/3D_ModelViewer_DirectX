@@ -56,8 +56,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		else {
 			auto renderTargetView = GetRenderTargetView();
-			GetContext()->OMSetRenderTargets(1, &renderTargetView, nullptr);
+			GetContext()->OMSetRenderTargets(1, &renderTargetView, GetDepthView());
 			GetContext()->ClearRenderTargetView(renderTargetView, GameEngine::BACKGROUND_COLOR);
+			GetContext()->ClearDepthStencilView(GetDepthView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 			static DWORD beforeTime = timeGetTime();
 			DWORD now = timeGetTime();
