@@ -47,7 +47,7 @@
 | ---- | ---- |
 | DebugPixelShader.hlsl | デバック用のピクセルシェーダ |
 | DebugVertexShader.hlsl | 頂点シェーダ |
-| TextturePixelShader.hlsl | テクスチャ用の頂点シェーダ |
+| TextturePixelShader.hlsl | テクスチャ用のピクセルシェーダ |
 
 # ライセンス
 * MIT License
