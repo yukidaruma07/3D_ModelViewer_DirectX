@@ -15,6 +15,7 @@ struct ConstantBuffer {
 	DirectX::XMFLOAT4 speculer = {};						/// スペキュラー
 	int isTexture;											/// テクスチャがあるか
 	int isGray;												/// グレーにするか
+	int isMosaic;
 };
 
 /// <summary>

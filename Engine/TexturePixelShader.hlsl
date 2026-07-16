@@ -9,6 +9,7 @@ cbuffer ConstantBuffer : register(b0)
     float4 speculer; // スペキュラー（反射した時の色）
     int isTexture; // テクスチャが貼ってあるからどうか（1: 貼ってある、0: 貼ってない）
     int isGray; // グレースケールが有効かどうか（1: 有効、0: 無効）
+    int isMosaic; // モザイクが有効かどうか（1：有効、0：無効）
 }
 
 struct PSInput
@@ -36,6 +37,13 @@ float4 main(PSInput IN) : SV_Target
         float g = 0.587 * diffUse_.g;
         float b = 0.114 * diffUse_.b;
         diffUse_ = r + g + b;
+    }
+    
+    if (isMosaic)
+    {
+        float mosaicSize = 0.2; // 0.0~1.0の範囲（※小さければモザイクが大きくなる）
+        float2 posterize = floor(IN.uv * (mosaicSize * 100) + 0.5) / (mosaicSize * 100);
+        diffUse_ = texture0.Sample(sampler0, posterize);
     }
 
     return diffUse_ + diffUse_ * ambient + speculer;

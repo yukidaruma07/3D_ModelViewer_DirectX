@@ -203,6 +203,7 @@ void FBX::Update() {
 		cb.ambient = materials_[i].ambient; // アンビエントカラーをコンスタントバッファに代入
 		cb.speculer = materials_[i].specular; // スペキュラーをコンスタントバッファに代入
 		cb.isTexture = materials_[i].texture != nullptr ? TRUE : FALSE; // テクスチャフラグをコンスタントバッファに代入
+		cb.isMosaic = TRUE;
 		GetContext()->UpdateSubresource(pMaterialConstantBuffers_[i], 0, nullptr, &cb, 0, 0); // コンスタントバッファを更新する
 	}
 
