@@ -166,10 +166,12 @@ void FBX::InitMaterial(fbxsdk::FbxNode* node) {
 		FbxSurfaceLambert* pMaterial = (FbxSurfaceLambert*)node->GetMaterial(i);
 		FbxDouble3  diffuse = pMaterial->Diffuse;
 		materials_[i].diffuse = XMFLOAT4((float)diffuse[0], (float)diffuse[1], (float)diffuse[2], 1.0f);
+		FbxDouble3 ambient = pMaterial->Ambient;
+		materials_[i].ambient = XMFLOAT4((float)ambient[0], (float)ambient[1], (float)ambient[2], 1.0f);
 
 		if (fileTextureCount > 0) {	//　マテリアルにテクスチャがある場合
 			FbxFileTexture* textureInfo = property.GetSrcObject<FbxFileTexture>();
-			const char* texturePath = textureInfo->GetFileName();			
+			const char* texturePath = textureInfo->GetFileName();
 			materials_[i].texture = new Texture(texturePath, -0.5f, 0.5f);	//　テクスチャデータを代入する
 			materials_[i].texture->Init();
 		}
@@ -197,12 +199,15 @@ void FBX::Update() {
 	for (int i = 0; i < materialCount_; i++) {
 		ConstantBuffer cb = {};
 		cb.wvpMat = XMMatrixTranspose(world_ * view * projection);
-		cb.diffUse = materials_[i].diffuse;
-		cb.isTexture = materials_[i].texture != nullptr ? TRUE : FALSE;
-		GetContext()->UpdateSubresource(pMaterialConstantBuffers_[i], 0, nullptr, &cb, 0, 0);
+		cb.diffUse = materials_[i].diffuse;	// ディフューズカラーをコンスタントバッファに代入
+		cb.ambient = materials_[i].ambient; // アンビエントカラーをコンスタントバッファに代入
+		cb.speculer = materials_[i].specular; // スペキュラーをコンスタントバッファに代入
+		cb.isTexture = materials_[i].texture != nullptr ? TRUE : FALSE; // テクスチャフラグをコンスタントバッファに代入
+		GetContext()->UpdateSubresource(pMaterialConstantBuffers_[i], 0, nullptr, &cb, 0, 0); // コンスタントバッファを更新する
 	}
 
 }
+
 
 void FBX::Draw() {
 	UINT stride = sizeof(Vertex);
