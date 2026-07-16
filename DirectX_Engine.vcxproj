@@ -146,6 +146,7 @@
     <ClCompile Include="Engine\Box.cpp" />
     <ClCompile Include="Engine\CameraManager.cpp" />
     <ClCompile Include="Engine\CircleCollider.cpp" />
+    <ClCompile Include="Engine\CSVManager.cpp" />
     <ClCompile Include="Engine\DirectX2DManager.cpp" />
     <ClCompile Include="Engine\DirectX3DManager.cpp" />
     <ClCompile Include="Engine\FBX.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Engine\CameraManager.h" />
     <ClInclude Include="Engine\CircleCollider.h" />
     <ClInclude Include="Engine\Collider.h" />
+    <ClInclude Include="Engine\CSVManager.h" />
     <ClInclude Include="Engine\DirectX2DManager.h" />
     <ClInclude Include="Engine\DirectX3DManager.h" />
     <ClInclude Include="Engine\FBX.h" />

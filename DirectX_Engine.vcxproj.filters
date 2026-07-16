@@ -87,6 +87,9 @@
     <ClCompile Include="Engine\Box.cpp">
       <Filter>Engine\Object</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\CSVManager.cpp">
+      <Filter>Engine\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGUI\imgui.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Box.h">
       <Filter>Engine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CSVManager.h">
+      <Filter>Engine\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
