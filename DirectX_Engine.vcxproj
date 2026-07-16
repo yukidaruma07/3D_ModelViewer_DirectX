@@ -141,6 +141,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClientSocketManager.cpp" />
     <ClCompile Include="Engine\AudioManager.cpp" />
     <ClCompile Include="Engine\BootScene.cpp" />
     <ClCompile Include="Engine\Box.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClientSocketManager.h" />
     <ClInclude Include="Engine\AudioManager.h" />
     <ClInclude Include="Engine\BaseObject.h" />
     <ClInclude Include="Engine\BaseScene.h" />
