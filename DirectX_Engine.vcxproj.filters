@@ -211,5 +211,14 @@
     <Filter Include="Engine\Scene">
       <UniqueIdentifier>{501adf3f-be7b-482f-84fe-f81ab2ceef17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{a322b7ce-de51-4734-a384-55e7556b0200}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object">
+      <UniqueIdentifier>{557d3a61-b9d8-4caf-98fa-d1228d4ba9ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene">
+      <UniqueIdentifier>{0ba8bc9d-2bd9-4ee9-966b-2a004ac4eba6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
