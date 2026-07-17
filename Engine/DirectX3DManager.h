@@ -54,12 +54,46 @@ namespace DirectX3DManager {
 	void InitDirectX3D();
 	void Release();
 
+	/// <summary>
+	/// 描画デバイスを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D11Device* GetDevice();
+
+	/// <summary>
+	/// コンテキストを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D11DeviceContext* GetContext();
+
+	/// <summary>
+	/// スワップチェインを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	IDXGISwapChain* GetSwapChain();
+
+	/// <summary>
+	/// レンダーターゲットビューを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D11RenderTargetView* GetRenderTargetView();
+
+	/// <summary>
+	/// Texture2Dを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D11Texture2D* GetTexture2D();
+
+	/// <summary>
+	/// ラスタライザーを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D11RasterizerState* GetRasterizer();
+
+	/// <summary>
+	/// 深度バッファを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D11DepthStencilView* GetDepthView();
 
 	/// <summary>
