@@ -12,7 +12,7 @@ using namespace DirectX3DManager;
 using namespace DirectX;
 
 Texture::Texture(const std::string& path, const float leftX, const float leftY)
-	: BaseObject("Texture") {
+	: BaseData() {
 	this->path_ = path;
 
 	// DirectXでは、2個の三角形を組み合わせて描画するイメージ
