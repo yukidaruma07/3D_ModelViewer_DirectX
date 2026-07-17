@@ -42,8 +42,10 @@ private:
 	int vertexCount_;
 	int polygonCount_;
 	int indexCount_;
-	std::vector<MATERIAL> materials_; //マテリアルの配列データ（※数は分からないため、ポインタ）
-	std::vector<Vertex> vertices_; //頂点の配列データ（※数は分からないため、ポインタ）
+	int boneCount_;
+	std::vector<MATERIAL> materials_; //マテリアルの配列データ
+	std::vector<Vertex> vertices_; //頂点の配列データ
+	std::vector<FbxCluster*> cluster_;
 public:
 	DirectX::XMMATRIX world_;
 
@@ -84,6 +86,8 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Release() override;
+
+	bool GetBonePostion(const std::string& boneName, DirectX::XMFLOAT3* postion);
 
 	/// <summary>
 	/// レイキャストを行う関数

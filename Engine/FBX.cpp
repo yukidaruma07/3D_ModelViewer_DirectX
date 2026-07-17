@@ -62,16 +62,17 @@ void FBX::Init() {
 		}
 	}
 
-	vertexCount_ = mesh->GetControlPointsCount();	//頂点数を取得する
-	polygonCount_ = mesh->GetPolygonCount();		//ポリゴンを取得する
-	materialCount_ = node->GetMaterialCount();		//マテリアルを取得する
-	indexMaterialCount_.resize(materialCount_);
-
 	InitVertex(mesh);		//頂点バッファを初期化する
 	InitIndex(mesh);		//インデックスバッファを初期化する
 	InitConstantBuffer();	//コンスタントバッファ（GPUに送るデータ）を初期化する
 	InitMaterial(node);		//マテリアルを初期化する
 	InitSkeleton(mesh);
+
+
+	vertexCount_ = mesh->GetControlPointsCount();	//頂点数を取得する
+	polygonCount_ = mesh->GetPolygonCount();		//ポリゴンを取得する
+	materialCount_ = node->GetMaterialCount();		//マテリアルを取得する
+	indexMaterialCount_.resize(materialCount_);
 }
 
 void FBX::InitVertex(FbxMesh* mesh) {
@@ -193,6 +194,10 @@ void FBX::InitSkeleton(fbxsdk::FbxMesh* mesh) {
 	FbxDeformer* pDeformer = mesh->GetDeformer(0);
 	if (pDeformer == nullptr) return;
 	pSkinInfo_ = (FbxSkin*)pDeformer;
+
+	for (int i = 0; i < boneCount_; i++) {
+		cluster_.push_back(pSkinInfo_->GetCluster(i));
+	}
 }
 
 void FBX::Update() {
@@ -260,6 +265,23 @@ void FBX::Draw() {
 
 void FBX::Release() {
 
+}
+
+bool FBX::GetBonePostion(const std::string& boneName, DirectX::XMFLOAT3* postion){
+	for (int i = 0; i < boneCount_; i++) {	// ボーン分ループする
+		if (boneName == cluster_[i]->GetLink()->GetName()) {	// 一致するボーンがあるか
+			FbxAMatrix  matrix;
+			cluster_[i]->GetTransformLinkMatrix(matrix);
+
+			postion->x = (float)matrix[3][0];
+			postion->y = (float)matrix[3][1];
+			postion->z = (float)matrix[3][2];
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool FBX::Raycast(FBX* fbx, DirectX::XMFLOAT3 rayPos, DirectX::XMFLOAT3 rayDir, float& distance) {
