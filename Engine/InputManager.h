@@ -1,5 +1,9 @@
 #pragma once
 #include <dinput.h>
+#include <Xinput.h>
+#include <DirectXMath.h>
+
+#pragma comment(lib, "XInput.lib")
 
 namespace InputManager {
 
@@ -32,4 +36,43 @@ namespace InputManager {
 	/// </summary>
 	/// <returns></returns>
 	POINT GetMousePoint();
+
+	/// <summary>
+	/// コントローラーが押されているかを返す関数（※押しっぱなし関係無し）
+	/// </summary>
+	/// <param name="button">コントローラーのボタン</param>
+	/// <returns></returns>
+	bool IsControllerButtonPush(int button);
+
+	/// <summary>
+	/// 左スティックの縦方向の傾き（縦・横）を取得する関数
+	/// </summary>
+	DirectX::XMFLOAT2 GetControllerTiltLeft();
+
+	/// <summary>
+	/// 右スティックの縦方向の傾き（縦・横）を取得する関数
+	/// </summary>
+	DirectX::XMFLOAT2 GetControllerTiltRight();
+
+	/// <summary>
+	/// 左トリガーの押し込み具合を取得する関数
+	/// </summary>
+	float GetControllerLeftTrigger();
+
+	/// <summary>
+	/// 右トリガーの押し込み具合を取得する関数
+	/// </summary>
+	float GetControllerRightTrigger();
+
+	/// <summary>
+	/// コントローラーの振動を開始するコマンド
+	/// </summary>
+	/// <param name="leftSpeed">左のモーターの強さ</param>
+	/// <param name="rightSpeed">右モーターの強さ</param>
+	void StartControllerVibration(int leftSpeed, int rightSpeed);
+
+	/// <summary>
+	/// コントローラーの振動を停止する関数
+	/// </summary>
+	void StopControllerVibration();
 }
