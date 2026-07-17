@@ -11,6 +11,15 @@
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
 
+enum FBXPostionType {
+	FBX_LEFTX_YUP_DEPTHX,	// 左右をX、上下をY、深さをZ（Maya）
+	FBX_LEFTX_ZUP_DEPTHY		// 左右をX、上下をZ、深さをY（Blender）
+};
+
+struct FBXLoadOption {
+	FBXPostionType postionType = FBX_LEFTX_YUP_DEPTHX;
+};
+
 struct MATERIAL {
 	Texture* texture;
 	DirectX::XMFLOAT4 diffuse;
@@ -27,6 +36,7 @@ private:
 	bool isShowTexture_;
 	std::string path_;
 
+	FBXLoadOption fbxLoadOption_;
 	ID3D11Buffer* pVertexBuffer_; //頂点バッファ
 	ID3D11Buffer** pIndexBuffer_; //インデックスバッファ（※数は分からないため、ポインタの配列）
 	//ID3D11Buffer* pConstantBuffer_; //コンスタントバッファ
@@ -49,7 +59,7 @@ private:
 public:
 	DirectX::XMMATRIX world_;
 
-	FBX(const std::string fName);
+	FBX(const std::string fName, FBXLoadOption fbxLoadOption);
 	~FBX();
 
 	ID3D11Buffer* GetVertexBuffer() const { return pVertexBuffer_; }

@@ -18,9 +18,10 @@ using namespace DirectX3DManager;
 using namespace fbxsdk;
 using namespace DirectX;
 
-FBX::FBX(const std::string fName)
+FBX::FBX(const std::string fName, FBXLoadOption fbxOption)
 	: BaseObject("FBX") {
 	this->path_ = fName;
+	fbxLoadOption_ = fbxOption;
 	isShowTexture_ = true;
 	indexCount_ = -1;
 	materialCount_ = -1;
@@ -94,9 +95,17 @@ void FBX::InitVertex(FbxMesh* mesh) {
 			LoggerManager::InfoDebug(fbxImporter_->GetFileName().Buffer());
 			LoggerManager::InfoDebug(std::to_string(vertexCount) + "ローカル座標：" + std::to_string((float)pos[0]) + "," + std::to_string((float)pos[1]) + "," + std::to_string((float)pos[2]));
 
-			vertex.postion.x = (float)pos[0];			//頂点のX座標を代入する
-			vertex.postion.y = (float)pos[2];			//頂点のY座標を代入する
-			vertex.postion.z = (float)pos[1];			//頂点のZ座標を代入する
+			if (fbxLoadOption_.postionType == FBX_LEFTX_YUP_DEPTHX) {
+				vertex.postion.x = (float)pos[0];			//頂点のX座標を代入する
+				vertex.postion.y = (float)pos[1];			//頂点のY座標を代入する
+				vertex.postion.z = (float)pos[2];			//頂点のZ座標を代入する
+			}
+			else if (fbxLoadOption_.postionType == FBX_LEFTX_ZUP_DEPTHY) {
+				vertex.postion.x = (float)pos[0];			//頂点のX座標を代入する
+				vertex.postion.y = (float)pos[2];			//頂点のY座標を代入する
+				vertex.postion.z = (float)pos[1];			//頂点のZ座標を代入する
+			}
+
 
 			FbxLayerElementUV* uvLayer = mesh->GetLayer(0)->GetUVs();
 			int uvIndex = mesh->GetTextureUVIndex(poly, vertexCount);
