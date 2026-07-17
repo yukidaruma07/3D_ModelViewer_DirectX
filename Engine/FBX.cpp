@@ -63,17 +63,17 @@ void FBX::Init() {
 		}
 	}
 
+	vertexCount_ = mesh->GetControlPointsCount();	//頂点数を取得する
+	polygonCount_ = mesh->GetPolygonCount();		//ポリゴンを取得する
+	materialCount_ = node->GetMaterialCount();		//マテリアルを取得する
+	indexMaterialCount_.resize(materialCount_);
+
 	InitVertex(mesh);		//頂点バッファを初期化する
 	InitIndex(mesh);		//インデックスバッファを初期化する
 	InitConstantBuffer();	//コンスタントバッファ（GPUに送るデータ）を初期化する
 	InitMaterial(node);		//マテリアルを初期化する
 	InitSkeleton(mesh);
 
-
-	vertexCount_ = mesh->GetControlPointsCount();	//頂点数を取得する
-	polygonCount_ = mesh->GetPolygonCount();		//ポリゴンを取得する
-	materialCount_ = node->GetMaterialCount();		//マテリアルを取得する
-	indexMaterialCount_.resize(materialCount_);
 }
 
 void FBX::InitVertex(FbxMesh* mesh) {
@@ -203,6 +203,7 @@ void FBX::InitSkeleton(fbxsdk::FbxMesh* mesh) {
 	FbxDeformer* pDeformer = mesh->GetDeformer(0);
 	if (pDeformer == nullptr) return;
 	pSkinInfo_ = (FbxSkin*)pDeformer;
+	boneCount_ = pSkinInfo_->GetClusterCount();
 
 	for (int i = 0; i < boneCount_; i++) {
 		cluster_.push_back(pSkinInfo_->GetCluster(i));
