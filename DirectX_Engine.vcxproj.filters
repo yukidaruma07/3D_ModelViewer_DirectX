@@ -57,9 +57,6 @@
     <ClCompile Include="Engine\Image.cpp">
       <Filter>Engine\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Texture.cpp">
-      <Filter>Engine\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Triangle.cpp">
       <Filter>Engine\Object</Filter>
     </ClCompile>
@@ -95,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="ClientSocketManager.cpp">
       <Filter>Engine\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Texture.cpp">
+      <Filter>Engine\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,9 +158,6 @@
     <ClInclude Include="ImGUI\imconfig.h">
       <Filter>Engine\Library\ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Texture.h">
-      <Filter>Engine\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Triangle.h">
       <Filter>Engine\Object</Filter>
     </ClInclude>
@@ -200,6 +197,12 @@
     <ClInclude Include="ClientSocketManager.h">
       <Filter>Engine\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Texture.h">
+      <Filter>Engine\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\BaseData.h">
+      <Filter>Engine\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -231,6 +234,9 @@
     </Filter>
     <Filter Include="Source\Scene">
       <UniqueIdentifier>{0ba8bc9d-2bd9-4ee9-966b-2a004ac4eba6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Data">
+      <UniqueIdentifier>{1cc80868-bd6f-4b35-a3ef-fe47065dfa15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

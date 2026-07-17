@@ -173,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="ClientSocketManager.h" />
     <ClInclude Include="Engine\AudioManager.h" />
+    <ClInclude Include="Engine\BaseData.h" />
     <ClInclude Include="Engine\BaseObject.h" />
     <ClInclude Include="Engine\BaseScene.h" />
     <ClInclude Include="Engine\BootScene.h" />

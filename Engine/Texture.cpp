@@ -30,8 +30,6 @@ Texture::Texture(const std::string& path, const float leftX, const float leftY)
 	vertices_[3] = { {leftX, 0.0f, 0.0f}, {0,0,1,1}, {1, 0} }; // 右上
 	vertices_[4] = { {leftX, leftY, 0.0f }, { 1,1,0,1 }, { 1, 1 }}; // 右下
 	vertices_[5] = { {0.0f, leftY, 0.0f}, {1,0,0,1}, {0, 1} }; // 左下
-
-	isShowImGUI_ = false; //直接描画するわけではないため、ImGUIの表示はfalse
 }
 
 void Texture::Init() {
@@ -131,41 +129,6 @@ void Texture::Init() {
 	GetDevice()->CreateBuffer(&constantBufferDesc, nullptr, &constantBuffer_);
 
 	GetDevice()->CreateBuffer(&bufferDesc, &bufferData, &vertexBuffer_);
-}
-
-void Texture::Update() {
-	Camera* camera = CameraManager::getCurentCamera();
-	if (camera == nullptr) return;
-
-	XMMATRIX scaleMat = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
-	XMMATRIX rotMat = XMMatrixRotationZ(rotation_.z) * XMMatrixRotationX(rotation_.x) * XMMatrixRotationY(rotation_.y);
-	XMMATRIX transMat = XMMatrixTranslation(postion_.x, postion_.y, postion_.z);
-	XMMATRIX world = scaleMat * rotMat * transMat;
-	XMMATRIX view = camera->getMatrix();
-	XMMATRIX projection = camera->GetProjection();
-
-	ConstantBuffer cb = {};
-	cb.wvpMat = XMMatrixTranspose(world * view * projection);
-	GetContext()->UpdateSubresource(constantBuffer_, 0, nullptr, &cb, 0, 0);
-}
-
-void Texture::Draw() {
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-
-	GetContext()->RSSetState(GetRasterizer());
-	GetContext()->IASetInputLayout(ShaderManager::inputLayout_);
-	GetContext()->IASetVertexBuffers(0, 1, &vertexBuffer_, &stride, &offset);
-	GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	GetContext()->VSSetShader(ShaderManager::vertexShader_, nullptr, 0);
-	GetContext()->PSSetShader(ShaderManager::pixelShader_, nullptr, 0);
-	GetContext()->PSSetShaderResources(0, 1, &shaderResourceView_);
-	GetContext()->PSSetSamplers(0, 1, &samplerState_);
-	GetContext()->VSSetConstantBuffers(0, 1, &constantBuffer_);
-
-	//GetContext()->Draw(6, 0);
-
-	GetContext()->RSSetState(nullptr);
 }
 
 void Texture::Release() {
