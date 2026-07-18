@@ -11,6 +11,7 @@
 #include "ImGUI/imgui_impl_win32.h"
 #include "resource.h"
 #include "Engine/FBX.h"
+using namespace GameEngine;
 
 #define WINDOW_CLASS_NAME "GameEngine"
 #define WINDOW_TITLE "MyGame"
@@ -27,17 +28,27 @@ bool OpenFile(char* filePath);
 
 using namespace DirectX3DManager;
 
+namespace {
+}
+
 namespace GameEngine {
 	HWND hwnd = {};
 	float deltaTime = 0.0f;
+	ViewType viewType_ = ViewType::TRANSLATION;
+	const int viewMenuCheckItem[3] = { ID_MOVE, ID_SCALE, ID_ROTATION };
 
 	HWND GetWindowHandle() {
 		return hwnd;
 	}
 
+	ViewType GetViewType() {
+		return viewType_;
+	}
+
 	float GetDeltaTime() {
 		return deltaTime;
 	}
+
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
@@ -138,6 +149,30 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					FBX* fbx = new FBX(filePath, {FBXPostionType::FBX_LEFTX_ZUP_DEPTHY});
 					ObjectManager::AddObject(fbx);
 				}
+				break;
+			}
+			case ID_MOVE: {
+				viewType_ = ViewType::TRANSLATION;
+				for (int id : viewMenuCheckItem) {
+					CheckMenuItem(GetMenu(hwnd), id, MF_UNCHECKED);
+				}
+				CheckMenuItem(GetMenu(hwnd), ID_MOVE, MF_CHECKED);
+				break;
+			}
+			case ID_SCALE: {
+				viewType_ = ViewType::SCALE;
+				for (int id : viewMenuCheckItem) {
+					CheckMenuItem(GetMenu(hwnd), id, MF_UNCHECKED);
+				}
+				CheckMenuItem(GetMenu(hwnd), ID_SCALE, MF_CHECKED);
+				break;
+			}
+			case ID_ROTATION: {
+				viewType_ = ViewType::ROTATION;
+				for (int id : viewMenuCheckItem) {
+					CheckMenuItem(GetMenu(hwnd), id, MF_UNCHECKED);
+				}
+				CheckMenuItem(GetMenu(hwnd), ID_ROTATION, MF_CHECKED);
 				break;
 			}
 			case ID_40003: {
