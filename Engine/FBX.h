@@ -38,14 +38,12 @@ private:
 
 	FBXLoadOption fbxLoadOption_;
 	ID3D11Buffer* pVertexBuffer_; //頂点バッファ
-	ID3D11Buffer** pIndexBuffer_; //インデックスバッファ（※数は分からないため、ポインタの配列）
-	//ID3D11Buffer* pConstantBuffer_; //コンスタントバッファ
+	std::vector<ID3D11Buffer*> indexBuffer_; //インデックスバッファ（※数は分からないため、ポインタの配列
 
 	FbxManager* fbxManager_;
 	FbxImporter* fbxImporter_;
 	FbxSkin* pSkinInfo_;
 	std::vector<std::vector<int>> index_;
-	std::vector<int> indexMaterialCount_;
 	std::vector<ID3D11Buffer*> pMaterialConstantBuffers_;
 
 	int materialCount_;
@@ -63,8 +61,7 @@ public:
 	~FBX();
 
 	ID3D11Buffer* GetVertexBuffer() const { return pVertexBuffer_; }
-	ID3D11Buffer** GetIndexBuffer() const { return pIndexBuffer_; }
-	//ID3D11Buffer* GetConstantBuffer() const { return pConstantBuffer_; }
+	std::vector<ID3D11Buffer*> GetIndexBuffer() const { return indexBuffer_; }
 
 	void Init() override;
 

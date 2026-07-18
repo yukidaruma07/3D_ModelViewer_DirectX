@@ -28,7 +28,7 @@ FBX::FBX(const std::string fName, FBXLoadOption fbxOption)
 	polygonCount_ = -1;
 	vertexCount_ = -1;
 	materials_.clear();
-	pIndexBuffer_ = nullptr;
+	indexBuffer_.clear();
 	pVertexBuffer_ = nullptr;
 	vertices_.clear();
 }
@@ -66,7 +66,7 @@ void FBX::Init() {
 	vertexCount_ = mesh->GetControlPointsCount();	//頂点数を取得する
 	polygonCount_ = mesh->GetPolygonCount();		//ポリゴンを取得する
 	materialCount_ = node->GetMaterialCount();		//マテリアルを取得する
-	indexMaterialCount_.resize(materialCount_);
+	//indexMaterialCount_.resize(materialCount_);
 
 	InitVertex(mesh);		//頂点バッファを初期化する
 	InitIndex(mesh);		//インデックスバッファを初期化する
@@ -130,12 +130,10 @@ void FBX::InitVertex(FbxMesh* mesh) {
 }
 
 void FBX::InitIndex(FbxMesh* mesh) {
-	pIndexBuffer_ = new ID3D11Buffer*[materialCount_];
+	indexBuffer_.resize(materialCount_);
 	index_.resize((size_t) polygonCount_ * 3);
 
 	for (int i = 0; i < materialCount_; i++) {
-		int count = 0;
-
 		for (DWORD poly = 0; poly < polygonCount_; poly++) {
 			FbxLayerElementMaterial* materialLayer = mesh->GetLayer(0)->GetMaterials();
 			int materialId = materialLayer->GetIndexArray().GetAt(poly);
@@ -143,23 +141,20 @@ void FBX::InitIndex(FbxMesh* mesh) {
 			if (materialId == i) {
 				for (DWORD vertex = 0; vertex < 3; vertex++) {
 					index_[i].push_back(poly * 3 + vertex);
-					count++;
 				}
 			}
 
 		}
 
-		indexMaterialCount_[i] = count;
-
 		D3D11_BUFFER_DESC bd = {};
-		bd.ByteWidth = sizeof(int) * count;
+		bd.ByteWidth = sizeof(int) * index_[i].size();
 		bd.Usage = D3D11_USAGE_DEFAULT;
 		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 		D3D11_SUBRESOURCE_DATA data = {};
 		data.pSysMem = index_[i].data();				//インデックスバッファ
 
-		HRESULT hr = GetDevice()->CreateBuffer(&bd, &data, &pIndexBuffer_[i]);
+		HRESULT hr = GetDevice()->CreateBuffer(&bd, &data, &indexBuffer_[i]);
 	}
 }
 
@@ -226,7 +221,7 @@ void FBX::Update() {
 		cb.ambient = materials_[i].ambient; // アンビエントカラーをコンスタントバッファに代入
 		cb.speculer = materials_[i].specular; // スペキュラーをコンスタントバッファに代入
 		cb.isTexture = materials_[i].texture != nullptr ? TRUE : FALSE; // テクスチャフラグをコンスタントバッファに代入
-		cb.isMosaic = TRUE;
+		cb.isMosaic = FALSE;
 		GetContext()->UpdateSubresource(pMaterialConstantBuffers_[i], 0, nullptr, &cb, 0, 0); // コンスタントバッファを更新する
 	}
 
@@ -246,7 +241,7 @@ void FBX::Draw() {
 	GetContext()->PSSetShader(ShaderManager::pixelShader_, nullptr, 0);
 		
 	for (int i = 0; i < materialCount_; i++) {
-		GetContext()->IASetIndexBuffer(pIndexBuffer_[i], DXGI_FORMAT_R32_UINT, 0);
+		GetContext()->IASetIndexBuffer(indexBuffer_[i], DXGI_FORMAT_R32_UINT, 0);
 		if (!isShowTexture_) {
 			GetContext()->PSSetShaderResources(0, 1, nullSRV);
 			GetContext()->PSSetShader(ShaderManager::pixelShader_, nullptr, 0);
@@ -266,7 +261,7 @@ void FBX::Draw() {
 		GetContext()->PSSetConstantBuffers(0, 1, &pMaterialConstantBuffers_[i]);
 		GetContext()->VSSetConstantBuffers(0, 1, &pMaterialConstantBuffers_[i]);
 		
-		GetContext()->DrawIndexed(indexMaterialCount_[i], 0, 0);
+		GetContext()->DrawIndexed(index_[i].size(), 0, 0);
 
 		
 	}
