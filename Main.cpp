@@ -83,6 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			SceneManager::UpdateScene();
 			SceneManager::DrawScene();
 			ObjectManager::UpdateManager();
+			InputManager::update();
 
 			#ifdef _DEBUG
 				DirectX2DManager::DrawFontText(0, 0, L"あああ");

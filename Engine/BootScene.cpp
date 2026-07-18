@@ -5,6 +5,11 @@
 #include "LoggerManager.h"
 #include "FBX.h"
 #include "Box.h"
+#include "InputManager.h"
+#include <Windows.h>
+#include <DirectXMath.h>
+
+using namespace DirectX;
 
 BootScene::BootScene()
 	: BaseScene("BootScene") {
@@ -14,23 +19,27 @@ BootScene::~BootScene() {
 }
 
 void BootScene::Init() {
-	DirectX::XMFLOAT3 vertexPos[3] = {
-		{0.0f, 0.0f, 0.0f},
-		{0.0f, 128.0f, 0.0f},
-		{64.0f, 0.0f, 0.0f}
-	};
-	Color color[3] = {
-		Color::GetRed(),
-		Color::GetGreen(),
-		Color::GetBlue()
-	};
-	ObjectManager::AddObject(new Triangle(color, vertexPos));
-	ObjectManager::AddObject(new Image("test.PNG", 64, 64));
-	ObjectManager::AddObject(new FBX("Oden.fbx", {FBXPostionType::FBX_LEFTX_YUP_DEPTHX}));
-	ObjectManager::AddObject(new Box(Color::GetRed(), 64, 64));
+
 }
 
 void BootScene::Update() {
+	static POINT beforePoint = InputManager::GetMousePoint();
+	POINT nowPoint = InputManager::GetMousePoint();
+	bool mouseInput = InputManager::IsPushMouse(0);
+	LoggerManager::InfoDebug(std::to_string(beforePoint.x) + "," + std::to_string(nowPoint.x));
+
+	if (!mouseInput) return;
+	auto fbxList = ObjectManager::GetDrawObjectList<FBX>();
+	if (fbxList.empty()) return;
+	XMFLOAT3 postion = fbxList[0]->GetPosition();
+	if (beforePoint.x < nowPoint.x) {
+		fbxList[0]->SetPosition({postion.x + 0.1f, postion.y, postion.z});
+	}
+	else if (beforePoint.x > nowPoint.x) {
+		fbxList[0]->SetPosition({ postion.x - 0.1f, postion.y, postion.z });
+	}
+
+	beforePoint = nowPoint;
 }
 
 void BootScene::Draw() {
