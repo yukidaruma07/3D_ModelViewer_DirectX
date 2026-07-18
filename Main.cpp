@@ -9,6 +9,7 @@
 #include "Engine/DirectX2DManager.h"
 #include "ImGUI/imgui_impl_dx11.h"
 #include "ImGUI/imgui_impl_win32.h"
+#include "resource.h"
 
 #define WINDOW_CLASS_NAME "GameEngine"
 #define WINDOW_TITLE "MyGame"
@@ -20,6 +21,8 @@ void initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 void initializeImGUI();
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+bool OpenFile(char* filePath);
 
 using namespace DirectX3DManager;
 
@@ -126,6 +129,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		break;
 	}
 	case WM_COMMAND: {
+		switch (LOWORD(wParam)) {
+			case ID_40002: {
+				char filePath[256] = {};
+				if (OpenFile(filePath)) {
+
+				}
+				break;
+			}
+			case ID_40003: {
+				break;
+			}
+		}
 		break;
 	}
 	case WM_DESTROY: {
@@ -134,6 +149,21 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	}
 	}
 	return DefWindowProc(hwnd, message, wParam, lParam);
+}
+
+bool OpenFile(char* fileName) {
+	OPENFILENAMEA openFileName = {};
+	openFileName.lStructSize = sizeof(OPENFILENAMEA);
+	openFileName.hwndOwner = GameEngine::GetWindowHandle();
+	openFileName.lpstrFilter = "FBXファイル\0*.fbx\0";
+	openFileName.lpstrFile = fileName;
+	openFileName.nFilterIndex = 1;
+	openFileName.nMaxFile = MAX_PATH;
+	openFileName.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+	if (GetOpenFileName(&openFileName)) {
+		return true;
+	}
+	return false;
 }
 
 void initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
@@ -148,6 +178,7 @@ void initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	wndClass.hIconSm = LoadIcon(nullptr, IDI_WINLOGO); //小さいアイコン
 	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW); //カーソル（参考：https://learn.microsoft.com/ja-jp/windows/win32/menurc/about-cursors）
 	wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); //背景
+	wndClass.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);
 	RegisterClassEx(&wndClass); //ウインドウクラスを登録する関数
 
 	int width = GetPrivateProfileInt("SCREEN", "Width", GameEngine::DEFAULT_WIDTH, "./config.ini");
