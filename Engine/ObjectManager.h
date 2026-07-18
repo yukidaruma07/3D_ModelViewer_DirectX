@@ -33,7 +33,7 @@ namespace ObjectManager {
             if (obj == nullptr) continue;
             T* instance = dynamic_cast<T*>(obj);
             if (instance != nullptr) {
-                getList.push_back(obj);
+                getList.push_back(instance);
             }
         }
         return getList;
