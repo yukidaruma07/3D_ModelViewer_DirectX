@@ -40,12 +40,6 @@ struct Vertex {
 	DirectX::XMFLOAT2 uv = {};			/// テクスチャのUV座標（※Uを横、Vを縦とする）
 };
 
-enum DrawMode {
-	DRAWMODE_NORMAL,
-	DRAWMODE_WIREFRAME,
-	DRAWMODE_TEXTURE
-};
-
 /// <summary>
 /// Direct3Dを管理するための名前空間
 /// </summary>
@@ -85,22 +79,15 @@ namespace DirectX3DManager {
 	ID3D11Texture2D* GetTexture2D();
 
 	/// <summary>
-	/// ラスタライザーを取得する関数
-	/// </summary>
-	/// <returns></returns>
-	ID3D11RasterizerState* GetRasterizer();
-
-	/// <summary>
 	/// 深度バッファを取得する関数
 	/// </summary>
 	/// <returns></returns>
 	ID3D11DepthStencilView* GetDepthView();
 
 	/// <summary>
-	/// 描画方法を変更する関数（テクスチャ無し、ワイヤーフレーム、テクスチャあり）
+	/// 描画をワイドフレームモードにする関数
 	/// </summary>
-	/// <param name="drawMode">描画したいモード</param>
-	void ChangeDrawMode(DrawMode drawMode);
+	void ChangeDrawWireFrameMode(bool flag);
 }
 
 /// <summary>

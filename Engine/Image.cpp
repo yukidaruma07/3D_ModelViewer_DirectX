@@ -57,7 +57,7 @@ void Image::Draw() {
 	ID3D11SamplerState* samplerState = texture_->GetSampleState();
 	ID3D11ShaderResourceView* shaderResourceView = texture_->GetShaderReasourceView();
 
-	GetContext()->RSSetState(GetRasterizer());
+	ChangeDrawWireFrameMode(false);
 	GetContext()->IASetInputLayout(ShaderManager::inputLayout_);
 	GetContext()->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

@@ -96,14 +96,14 @@ namespace DirectX3DManager {
 		rasterizerDesc.FillMode = D3D11_FILL_SOLID; // レンダリング時に使用する塗りつぶしモード
 		rasterizerDesc.CullMode = D3D11_CULL_NONE;
 		rasterizerDesc.FrontCounterClockwise = FALSE;
+		GetDevice()->CreateRasterizerState(&rasterizerDesc, &rasterizerState_);
 
 		D3D11_RASTERIZER_DESC wireframeRasterizerDesc = {};
-		rasterizerDesc.FillMode = D3D11_FILL_WIREFRAME; // レンダリング時に使用する塗りつぶしモード
-		rasterizerDesc.CullMode = D3D11_CULL_NONE;
-		rasterizerDesc.FrontCounterClockwise = FALSE;
-
-		GetDevice()->CreateRasterizerState(&rasterizerDesc, &rasterizerState_);
+		wireframeRasterizerDesc.FillMode = D3D11_FILL_WIREFRAME; // レンダリング時に使用する塗りつぶしモード
+		wireframeRasterizerDesc.CullMode = D3D11_CULL_NONE;
+		wireframeRasterizerDesc.FrontCounterClockwise = FALSE;
 		GetDevice()->CreateRasterizerState(&wireframeRasterizerDesc, &wireFrameRasterizerState_);
+
 		d3d11Context_->RSSetState(rasterizerState_);
 
 		//参考：https://learn.microsoft.com/ja-jp/windows/win32/api/d3d11/ns-d3d11-d3d11_render_target_blend_desc
@@ -141,15 +141,13 @@ namespace DirectX3DManager {
 
 	ID3D11Texture2D* DirectX3DManager::GetTexture2D() { return texture2D_; }
 
-	ID3D11RasterizerState* DirectX3DManager::GetRasterizer() { return rasterizerState_; }
-
 	ID3D11DepthStencilView* DirectX3DManager::GetDepthView()
 	{
 		return pDepthStencilView;
 	}
 
-	void ChangeDrawMode(DrawMode drawMode) {
-		if (drawMode == DrawMode::DRAWMODE_WIREFRAME) {
+	void ChangeDrawWireFrameMode(bool flag) {
+		if (flag) {
 			GetContext()->RSSetState(wireFrameRasterizerState_);
 		}
 		else {

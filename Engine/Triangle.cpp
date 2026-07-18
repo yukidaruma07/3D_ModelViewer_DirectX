@@ -64,7 +64,7 @@ void Triangle::Draw() {
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 	ID3D11ShaderResourceView* nullSRV = nullptr;
-	GetContext()->RSSetState(GetRasterizer());
+	ChangeDrawWireFrameMode(false);
 	GetContext()->PSSetShaderResources(0, 1, &nullSRV);
 	GetContext()->IASetInputLayout(ShaderManager::inputLayout_);
 	GetContext()->IASetVertexBuffers(0, 1, &vertexBuffer_, &stride, &offset);
