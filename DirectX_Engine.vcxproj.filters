@@ -203,6 +203,7 @@
     <ClInclude Include="Engine\BaseData.h">
       <Filter>Engine\Data</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -238,5 +239,8 @@
     <Filter Include="Engine\Data">
       <UniqueIdentifier>{1cc80868-bd6f-4b35-a3ef-fe47065dfa15}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
 </Project>
