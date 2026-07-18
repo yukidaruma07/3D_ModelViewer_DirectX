@@ -10,6 +10,7 @@
 #include "ImGUI/imgui_impl_dx11.h"
 #include "ImGUI/imgui_impl_win32.h"
 #include "resource.h"
+#include "Engine/FBX.h"
 
 #define WINDOW_CLASS_NAME "GameEngine"
 #define WINDOW_TITLE "MyGame"
@@ -133,7 +134,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			case ID_40002: {
 				char filePath[256] = {};
 				if (OpenFile(filePath)) {
-
+					FBX* fbx = new FBX(filePath, {FBXPostionType::FBX_LEFTX_ZUP_DEPTHY});
+					ObjectManager::AddObject(fbx);
 				}
 				break;
 			}
