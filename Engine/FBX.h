@@ -7,6 +7,7 @@
 #include <vector>
 #include "fbxsdk.h"
 #include "Texture.h"
+#include <unordered_map>
 #pragma comment(lib, "LibFbxSDK-MD.lib")
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
@@ -28,6 +29,19 @@ struct MATERIAL {
 	float shininess;
 };
 
+struct Bone {
+	DirectX::XMMATRIX bindPose = {};
+	DirectX::XMMATRIX newPose = {};
+	DirectX::XMMATRIX diffPose = {};
+};
+
+struct Weight {
+	DirectX::XMFLOAT3 posOrigin = {};
+	//DirectX::XMFLOAT3 normalOrigin = {};
+	std::vector<int> boneIndex;
+	std::vector<float> boneWeight;
+};
+
 /// <summary>
 /// FBXの3Dモデルを表示するクラス
 /// </summary>
@@ -45,6 +59,10 @@ private:
 	FbxSkin* pSkinInfo_;
 	std::vector<std::vector<int>> index_;
 	std::vector<ID3D11Buffer*> pMaterialConstantBuffers_;
+
+	std::vector<Bone> boneList;
+	std::unordered_map<std::string, Bone*> boneMap;
+	std::vector<Weight> weightList;
 
 	int materialCount_;
 	int vertexCount_;
